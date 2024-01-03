@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../partials/head.ejs") %>
+  <body>
+    <%- include("../partials/header.ejs") %>
+
+    <main>
+      <div>
+        <form action="/fruits" method="post">
+          <fieldset>
+            <legend>Create a new Fruit</legend>
+            <label
+              >Name:<input 
+              type="text" 
+              name="name" 
+              placeholder="name of fruit"
+            /></label>
+            <label
+              >Color:<input
+                type="text"
+                name="color"
+                placeholder="color of fruit"
+            /></label>
+            <label
+              >Ready To Eat:<input 
+              type="checkbox" 
+              name="readyToEat"
+            /></label>
+          </fieldset>
+          <button>Create New Fruit</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

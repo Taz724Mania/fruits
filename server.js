@@ -17,6 +17,33 @@ mongoose.connection
 .on("close", () => {console.log("Disconnected from Mongo")})
 .on("error", (error) => {console.log(error)})
 
+//Create Fruits Model
+//destructure Schema and model into their own variables
+// const Schema = mongoose.Schema
+// const model = mongoose.model 
+// the two above are the same thing as the one below
+const {Schema, model} = mongoose
+
+const fruitSchema = new Schema({
+    name: String,
+    color: String,
+    readyToEat: Boolean
+})
+
+//Model - object for interacting with the db
+const Fruit = model("Fruit", fruitSchema)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

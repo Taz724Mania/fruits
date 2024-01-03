@@ -33,6 +33,60 @@ const fruitSchema = new Schema({
 //Model - object for interacting with the db
 const Fruit = model("Fruit", fruitSchema)
 
+//Express App Object
+const app = express()
+
+// Register Middleware
+app.use(morgan("dev")) //logger
+app.use(methodOverride("_method")) // override form submissions
+app.use(express.urlencoded({extended: true})) //parse urlencoded bodies
+app.use(express.static("public")) // serve the files from the public folder
+
+
+// Routes
+app.get("/", (req, res) => {
+    res.send("Is your refrigerator running? Then you better go CATCH IT")
+})
+
+// seed route
+app.get("/fruits/seed", async (req, res) => {
+    try {
+      // array of starter fruits
+      const startFruits = [
+        { name: "Orange", color: "orange", readyToEat: false },
+        { name: "Grape", color: "purple", readyToEat: false },
+        { name: "Banana", color: "orange", readyToEat: false },
+        { name: "Strawberry", color: "red", readyToEat: false },
+        { name: "Coconut", color: "brown", readyToEat: false },
+      ];
+  
+      // Delete All Fruits
+      await Fruit.deleteMany({});
+  
+      // Seed my starter fruits
+      const fruits = await Fruit.create(startFruits);
+  
+      // send fruits as response
+      res.json(fruits);
+    } catch (error) {
+      console.log(error.message);
+      res.send("There was error, read logs for error details");
+    }
+  });     
+
+// Index Route Get -> /fruits
+app.get("/fruits", async (req, res) => {
+    try {
+      // get all fruits
+      const fruits = await Fruit.find({});
+      // render a template
+      // fruits/index.ejs = views/fruits/index.ejs
+      res.render("fruits/index.ejs", {fruits})
+    } catch (error) {
+      console.log("-----", error.message, "------");
+      res.status(400).send("error, read logs for details");
+    }
+  });
 
 
 
@@ -45,6 +99,12 @@ const Fruit = model("Fruit", fruitSchema)
 
 
 
+
+// Server Listener
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`)
+})
 
 
 
